@@ -304,9 +304,9 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
   void initState() {
     super.initState();
     indicatorListener = () {
+      print(
+          "animated contanttttttttttt>>>>>>>>>>>>> ${widget.indicatorAnimationController?.value}");
       if (widget.isCurrentPage) {
-        print(
-            "animated contanttttttttttt>>>>>>>>>>>>> ${widget.indicatorAnimationController?.value}");
         switch (widget.indicatorAnimationController?.value) {
           case IndicatorAnimationCommand.pause:
             animationController.stop();
