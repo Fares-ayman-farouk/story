@@ -123,7 +123,7 @@ class _StoryPageState extends State<StoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StoryPageView(
-        itemBuilder: (context, pageIndex, storyIndex) {
+        itemBuilder: (context, pageIndex, storyIndex, animationController) {
           final user = sampleUsers[pageIndex];
           final story = user.stories[storyIndex];
           return Stack(
@@ -172,7 +172,8 @@ class _StoryPageState extends State<StoryPage> {
             ],
           );
         },
-        gestureItemBuilder: (context, pageIndex, storyIndex) {
+        gestureItemBuilder:
+            (context, pageIndex, storyIndex, animationController) {
           return Stack(children: [
             Align(
               alignment: Alignment.topRight,

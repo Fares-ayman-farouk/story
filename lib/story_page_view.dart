@@ -9,6 +9,7 @@ typedef _StoryItemBuilder = Widget Function(
   BuildContext context,
   int pageIndex,
   int storyIndex,
+  AnimationController? animationController,
 );
 
 typedef _StoryConfigFunction = int Function(int pageIndex);
@@ -388,11 +389,8 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
           ),
         ),
         Positioned.fill(
-          child: widget.itemBuilder(
-            context,
-            widget.pageIndex,
-            context.watch<_StoryStackController>().value,
-          ),
+          child: widget.itemBuilder(context, widget.pageIndex,
+              context.watch<_StoryStackController>().value, null),
         ),
         Container(
           height: 50,
@@ -424,10 +422,10 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(
-                context,
-                widget.pageIndex,
-                context.watch<_StoryStackController>().value,
-              ) ??
+                  context,
+                  widget.pageIndex,
+                  context.watch<_StoryStackController>().value,
+                  animationController) ??
               const SizedBox.shrink(),
         ),
       ],
