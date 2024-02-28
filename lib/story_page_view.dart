@@ -313,12 +313,12 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
             break;
           case IndicatorAnimationCommand.resume:
           default:
-            // if (storyImageLoadingController.value ==
-            //     StoryImageLoadingState.loading) {
-            //   return;
-            // }
-            // animationController.forward();
-            animationController.stop();
+            if (storyImageLoadingController.value ==
+                StoryImageLoadingState.loading) {
+              return;
+            }
+            animationController.forward();
+            // animationController.stop();
             break;
         }
       }
@@ -356,7 +356,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         },
       );
     widget.indicatorAnimationController?.addListener(indicatorListener);
-    storyImageLoadingController.addListener(imageLoadingListener);
+    // storyImageLoadingController.addListener(imageLoadingListener);
   }
 
   @override
