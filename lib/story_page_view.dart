@@ -500,6 +500,7 @@ class _Gestures extends StatelessWidget {
       children: [
         Container(
           height: 650,
+          width: 180,
           color: Colors.red,
           child: GestureDetector(
             onTap: onTap ??
@@ -533,33 +534,39 @@ class _Gestures extends StatelessWidget {
         ),
         Container(
           height: 650,
+          width: 180,
           color: Colors.red,
           child: GestureDetector(
-            onTap: () {
-              context.read<_StoryStackController>().increment(
-                    restartAnimation: () =>
-                        animationController!.forward(from: 0),
-                    completeAnimation: () => animationController!.value = 1,
-                  );
-            },
-            onTapDown: (_) {
-              animationController!.stop();
-            },
-            onTapUp: (_) {
-              if (storyImageLoadingController.value !=
-                  StoryImageLoadingState.loading) {
-                animationController!.forward();
-              }
-            },
-            onLongPress: () {
-              animationController!.stop();
-            },
-            onLongPressUp: () {
-              if (storyImageLoadingController.value !=
-                  StoryImageLoadingState.loading) {
-                animationController!.forward();
-              }
-            },
+            onTap: onTap ??
+                () {
+                  context.read<_StoryStackController>().increment(
+                        restartAnimation: () =>
+                            animationController!.forward(from: 0),
+                        completeAnimation: () => animationController!.value = 1,
+                      );
+                },
+            onTapDown: onTapDown ??
+                (_) {
+                  animationController!.stop();
+                },
+            onTapUp: onTapUp ??
+                (_) {
+                  if (storyImageLoadingController.value !=
+                      StoryImageLoadingState.loading) {
+                    animationController!.forward();
+                  }
+                },
+            onLongPress: onLongPress ??
+                () {
+                  animationController!.stop();
+                },
+            onLongPressUp: onLongPressUp ??
+                () {
+                  if (storyImageLoadingController.value !=
+                      StoryImageLoadingState.loading) {
+                    animationController!.forward();
+                  }
+                },
           ),
         ),
       ],
