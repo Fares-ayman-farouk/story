@@ -53,6 +53,7 @@ class StoryPageView extends StatefulWidget {
     this.onLongPress,
     this.onLongPressUp,
     required this.animationControllerCallBack,
+    this.onVerticalDragEnd,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -118,6 +119,9 @@ class StoryPageView extends StatefulWidget {
 
   /// Function onLongPressFromDown
   final Function()? onLongPressUp;
+
+  /// Function VerticalDragEnd
+  final Function(DragEndDetails)? onVerticalDragEnd;
 
   /// Function call back the animation controller
   final Function(AnimationController) animationControllerCallBack;
@@ -242,6 +246,7 @@ class _StoryPageBuilder extends StatefulWidget {
     this.gestureHeight,
     this.gestureWidth,
     required this.animationControllerCallBack,
+    this.onVerticalDragEnd,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -262,6 +267,7 @@ class _StoryPageBuilder extends StatefulWidget {
   final Function(TapDownDetails)? onTapDown;
   final Function()? onLongPress;
   final Function()? onLongPressUp;
+  final Function(DragEndDetails)? onVerticalDragEnd;
   final double? gestureHeight;
   final double? gestureWidth;
   final Function(AnimationController) animationControllerCallBack;
@@ -285,6 +291,12 @@ class _StoryPageBuilder extends StatefulWidget {
       required Color indicatorUnvisitedColor,
       required double indicatorHeight,
       required bool showShadow,
+      Function()? onTap,
+      Function()? onLongPress,
+      Function()? onLongPressUp,
+      Function(DragEndDetails)? onVerticalDragEnd,
+      Function(TapUpDetails)? onTapUp,
+      Function(TapDownDetails)? onTapDown,
       required Function(AnimationController) animationControllerCallBack}) {
     return MultiProvider(
       providers: [
@@ -483,6 +495,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
             onLongPressUp: widget.onLongPressUp,
             onTapDown: widget.onTapDown,
             onTapUp: widget.onTapUp,
+            onVerticalDragEnd: widget.onVerticalDragEnd,
           ),
         ),
         Positioned.fill(
@@ -512,6 +525,7 @@ class _Gestures extends StatelessWidget {
     this.onLongPressUp,
     this.gestureHeight,
     this.gestureWidth,
+    this.onVerticalDragEnd,
   }) : super(key: key);
 
   final AnimationController? animationController;
@@ -522,6 +536,7 @@ class _Gestures extends StatelessWidget {
   final Function(TapDownDetails)? onTapDown;
   final Function()? onLongPress;
   final Function()? onLongPressUp;
+  final Function(DragEndDetails)? onVerticalDragEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -558,6 +573,14 @@ class _Gestures extends StatelessWidget {
                   if (storyImageLoadingController.value !=
                       StoryImageLoadingState.loading) {
                     animationController!.forward();
+                  }
+                },
+            onVerticalDragEnd: onVerticalDragEnd ??
+                (details) {
+                  if (details.velocity.pixelsPerSecond.dy < 0) {
+                  } else if (details.velocity.pixelsPerSecond.dy > 0) {
+                    print("doooooooowwwwwwwnnnnnnnn");
+                    Navigator.of(context).pop();
                   }
                 },
           ),
