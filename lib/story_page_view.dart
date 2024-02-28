@@ -118,7 +118,7 @@ class StoryPageView extends StatefulWidget {
   /// Function onLongPressFromDown
   final Function()? onLongPressUp;
 
-  /// Function current story index
+  /// Function call back the animation controller
 
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
@@ -180,7 +180,7 @@ class _StoryPageViewState extends State<StoryPageView> {
                   pageIndex: index,
                   animateToPage: (index) {
                     pageController!.animateToPage(index,
-                        duration: Duration(milliseconds: 500),
+                        duration: Duration(milliseconds: 300),
                         curve: Curves.ease);
                   },
                   isCurrentPage: currentPageValue == index,
