@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'dart:math';
 import 'dart:ui';
 
@@ -227,7 +229,14 @@ class _StoryPageBuilder extends StatefulWidget {
     required this.indicatorUnvisitedColor,
     required this.indicatorVisitedColor,
     required this.indicatorHeight,
-    required this.showShadow, this.onTap, this.onTapUp, this.onTapDown, this.onLongPress, this.onLongPressUp,
+    required this.showShadow,
+    this.onTap,
+    this.onTapUp,
+    this.onTapDown,
+    this.onLongPress,
+    this.onLongPressUp,
+    this.gestureHeight,
+    this.gestureWidth,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -248,6 +257,8 @@ class _StoryPageBuilder extends StatefulWidget {
   final Function(TapDownDetails)? onTapDown;
   final Function()? onLongPress;
   final Function()? onLongPressUp;
+  final double? gestureHeight;
+  final double? gestureWidth;
 
   static Widget wrapped({
     required int pageIndex,
@@ -452,13 +463,16 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
           indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
           indicatorAnimationController: widget.indicatorAnimationController,
         ),
-        _Gestures(
-          animationController: animationController,
-          onTap: widget.onTap,
-          onLongPress: widget.onLongPress,
-          onLongPressUp: widget.onLongPressUp,
-          onTapDown: widget.onTapDown,
-          onTapUp: widget.onTapUp,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: _Gestures(
+            animationController: animationController,
+            onTap: widget.onTap,
+            onLongPress: widget.onLongPress,
+            onLongPressUp: widget.onLongPressUp,
+            onTapDown: widget.onTapDown,
+            onTapUp: widget.onTapUp,
+          ),
         ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(
@@ -485,10 +499,14 @@ class _Gestures extends StatelessWidget {
     this.onTapDown,
     this.onLongPress,
     this.onLongPressUp,
+    this.gestureHeight,
+    this.gestureWidth,
   }) : super(key: key);
 
   final AnimationController? animationController;
   final Function()? onTap;
+  final double? gestureHeight;
+  final double? gestureWidth;
   final Function(TapUpDetails)? onTapUp;
   final Function(TapDownDetails)? onTapDown;
   final Function()? onLongPress;
@@ -497,11 +515,12 @@ class _Gestures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: 650,
-          width: 180,
-          color: Colors.red,
+          height: gestureHeight ?? 650,
+          width: gestureWidth ?? 180,
+          color: Colors.transparent,
           child: GestureDetector(
             onTap: onTap ??
                 () {
@@ -533,9 +552,9 @@ class _Gestures extends StatelessWidget {
           ),
         ),
         Container(
-          height: 650,
-          width: 180,
-          color: Colors.red,
+          height: gestureHeight ?? 650,
+          width: gestureWidth ?? 180,
+          color: Colors.transparent,
           child: GestureDetector(
             onTap: onTap ??
                 () {
