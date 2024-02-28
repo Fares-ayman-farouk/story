@@ -54,6 +54,8 @@ class StoryPageView extends StatefulWidget {
     this.onLongPressUp,
     required this.animationControllerCallBack,
     this.onVerticalDragEnd,
+    required this.gestureHeight,
+    required this.gestureWidth,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -126,6 +128,10 @@ class StoryPageView extends StatefulWidget {
   /// Function call back the animation controller
   final Function(AnimationController) animationControllerCallBack;
 
+  /// gestureHeight // gestureHeight
+  final double gestureHeight;
+  final double gestureWidth;
+
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
   final ValueNotifier<IndicatorAnimationCommand>? indicatorAnimationController;
@@ -178,37 +184,39 @@ class _StoryPageViewState extends State<StoryPageView> {
             child: Stack(
               children: [
                 _StoryPageBuilder.wrapped(
-                  showShadow: widget.showShadow,
-                  indicatorHeight: widget.indicatorHeight,
-                  pageLength: widget.pageLength,
-                  storyLength: widget.storyLength(index),
-                  initialStoryIndex: widget.initialStoryIndex?.call(index) ?? 0,
-                  pageIndex: index,
-                  onTap: widget.onTap,
-                  onLongPress: widget.onLongPress,
-                  onLongPressUp: widget.onLongPressUp,
-                  onTapDown: widget.onTapDown,
-                  onTapUp: widget.onTapUp,
-                  onVerticalDragEnd: widget.onVerticalDragEnd,
-                  animationControllerCallBack:
-                      widget.animationControllerCallBack,
-                  animateToPage: (index) {
-                    pageController!.animateToPage(index,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.ease);
-                  },
-                  isCurrentPage: currentPageValue == index,
-                  isPaging: isPaging,
-                  onPageLimitReached: widget.onPageLimitReached,
-                  itemBuilder: widget.itemBuilder,
-                  gestureItemBuilder: widget.gestureItemBuilder,
-                  indicatorDuration: widget.indicatorDuration,
-                  indicatorPadding: widget.indicatorPadding,
-                  indicatorAnimationController:
-                      widget.indicatorAnimationController,
-                  indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
-                  indicatorVisitedColor: widget.indicatorVisitedColor,
-                ),
+                    showShadow: widget.showShadow,
+                    indicatorHeight: widget.indicatorHeight,
+                    pageLength: widget.pageLength,
+                    storyLength: widget.storyLength(index),
+                    initialStoryIndex:
+                        widget.initialStoryIndex?.call(index) ?? 0,
+                    pageIndex: index,
+                    onTap: widget.onTap,
+                    onLongPress: widget.onLongPress,
+                    onLongPressUp: widget.onLongPressUp,
+                    onTapDown: widget.onTapDown,
+                    onTapUp: widget.onTapUp,
+                    onVerticalDragEnd: widget.onVerticalDragEnd,
+                    animationControllerCallBack:
+                        widget.animationControllerCallBack,
+                    animateToPage: (index) {
+                      pageController!.animateToPage(index,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease);
+                    },
+                    isCurrentPage: currentPageValue == index,
+                    isPaging: isPaging,
+                    onPageLimitReached: widget.onPageLimitReached,
+                    itemBuilder: widget.itemBuilder,
+                    gestureItemBuilder: widget.gestureItemBuilder,
+                    indicatorDuration: widget.indicatorDuration,
+                    indicatorPadding: widget.indicatorPadding,
+                    indicatorAnimationController:
+                        widget.indicatorAnimationController,
+                    indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
+                    indicatorVisitedColor: widget.indicatorVisitedColor,
+                    gestureHeight: widget.gestureHeight,
+                    gestureWidth: widget.gestureWidth),
                 if (isPaging && !isLeaving)
                   Positioned.fill(
                     child: Opacity(
@@ -249,8 +257,8 @@ class _StoryPageBuilder extends StatefulWidget {
     this.onTapDown,
     this.onLongPress,
     this.onLongPressUp,
-    this.gestureHeight,
-    this.gestureWidth,
+    required this.gestureHeight,
+    required this.gestureWidth,
     required this.animationControllerCallBack,
     this.onVerticalDragEnd,
   }) : super(key: key);
@@ -274,8 +282,8 @@ class _StoryPageBuilder extends StatefulWidget {
   final Function()? onLongPress;
   final Function()? onLongPressUp;
   final Function(DragEndDetails)? onVerticalDragEnd;
-  final double? gestureHeight;
-  final double? gestureWidth;
+  final double gestureHeight;
+  final double gestureWidth;
   final Function(AnimationController) animationControllerCallBack;
 
   static Widget wrapped(
@@ -293,6 +301,8 @@ class _StoryPageBuilder extends StatefulWidget {
       required EdgeInsetsGeometry indicatorPadding,
       required ValueNotifier<IndicatorAnimationCommand>?
           indicatorAnimationController,
+      required double gestureHeight,
+      required double gestureWidth,
       required Color indicatorVisitedColor,
       required Color indicatorUnvisitedColor,
       required double indicatorHeight,
@@ -352,6 +362,8 @@ class _StoryPageBuilder extends StatefulWidget {
         indicatorVisitedColor: indicatorVisitedColor,
         indicatorUnvisitedColor: indicatorUnvisitedColor,
         indicatorHeight: indicatorHeight,
+        gestureHeight: gestureHeight,
+        gestureWidth: gestureWidth,
       ),
     );
   }
@@ -508,6 +520,8 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
             onTapDown: widget.onTapDown,
             onTapUp: widget.onTapUp,
             onVerticalDragEnd: widget.onVerticalDragEnd,
+            gestureHeight: widget.gestureHeight,
+            gestureWidth: widget.gestureWidth,
           ),
         ),
         Positioned.fill(
@@ -535,15 +549,15 @@ class _Gestures extends StatelessWidget {
     this.onTapDown,
     this.onLongPress,
     this.onLongPressUp,
-    this.gestureHeight,
-    this.gestureWidth,
+    required this.gestureHeight,
+    required this.gestureWidth,
     this.onVerticalDragEnd,
   }) : super(key: key);
 
   final AnimationController? animationController;
   final Function()? onTap;
-  final double? gestureHeight;
-  final double? gestureWidth;
+  final double gestureHeight;
+  final double gestureWidth;
   final Function(TapUpDetails)? onTapUp;
   final Function(TapDownDetails)? onTapDown;
   final Function()? onLongPress;
@@ -687,6 +701,7 @@ class _IndicatorsState extends State<_Indicators> {
             setState(() {});
           });
   }
+  //test
 
   @override
   Widget build(BuildContext context) {

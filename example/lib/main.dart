@@ -124,6 +124,8 @@ class _StoryPageState extends State<StoryPage> {
     return Scaffold(
       body: StoryPageView(
         animationControllerCallBack: (animationController) {},
+        gestureHeight: 650,
+        gestureWidth: 650,
         itemBuilder: (context, pageIndex, storyIndex, animationController) {
           final user = sampleUsers[pageIndex];
           final story = user.stories[storyIndex];
