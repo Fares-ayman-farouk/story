@@ -184,6 +184,12 @@ class _StoryPageViewState extends State<StoryPageView> {
                   storyLength: widget.storyLength(index),
                   initialStoryIndex: widget.initialStoryIndex?.call(index) ?? 0,
                   pageIndex: index,
+                  onTap: widget.onTap,
+                  onLongPress: widget.onLongPress,
+                  onLongPressUp: widget.onLongPressUp,
+                  onTapDown: widget.onTapDown,
+                  onTapUp: widget.onTapUp,
+                  onVerticalDragEnd: widget.onVerticalDragEnd,
                   animationControllerCallBack:
                       widget.animationControllerCallBack,
                   animateToPage: (index) {
@@ -609,6 +615,14 @@ class _Gestures extends StatelessWidget {
                     animationController!.forward();
                   }
                 },
+            onVerticalDragEnd: onVerticalDragEnd ??
+                (details) {
+                  if (details.velocity.pixelsPerSecond.dy < 0) {
+                  } else if (details.velocity.pixelsPerSecond.dy > 0) {
+                    print("doooooooowwwwwwwnnnnnnnn");
+                    Navigator.of(context).pop();
+                  }
+                },
             onLongPress: onLongPress ??
                 () {
                   animationController!.stop();
@@ -660,9 +674,7 @@ class _IndicatorsState extends State<_Indicators> {
   @override
   void initState() {
     super.initState();
-    if (storyImageLoadingController.value != StoryImageLoadingState.loading) {
-      widget.animationController!.forward();
-    }
+
     indicatorAnimation =
         Tween(begin: 0.0, end: 1.0).animate(widget.animationController!)
           ..addListener(() {
