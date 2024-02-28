@@ -12,7 +12,6 @@ typedef _StoryItemBuilder = Widget Function(
   AnimationController? animationController,
 );
 
-//test commit
 typedef _StoryConfigFunction = int Function(int pageIndex);
 
 typedef _StoryDurationFunction = Duration Function(
