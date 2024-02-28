@@ -313,11 +313,12 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
             break;
           case IndicatorAnimationCommand.resume:
           default:
-            if (storyImageLoadingController.value ==
-                StoryImageLoadingState.loading) {
-              return;
-            }
-            animationController.forward();
+            // if (storyImageLoadingController.value ==
+            //     StoryImageLoadingState.loading) {
+            //   return;
+            // }
+            // animationController.forward();
+            animationController.stop();
             break;
         }
       }
