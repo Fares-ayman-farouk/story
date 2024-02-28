@@ -422,7 +422,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
 
     widget.animationControllerCallBack.call(animationController);
 
-    widget.indicatorAnimationController?.addListener(indicatorListener);
+    // widget.indicatorAnimationController?.addListener(indicatorListener);
     // storyImageLoadingController.addListener(imageLoadingListener);
   }
 
