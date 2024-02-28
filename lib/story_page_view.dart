@@ -45,6 +45,11 @@ class StoryPageView extends StatefulWidget {
     this.indicatorUnvisitedColor = Colors.grey,
     this.indicatorHeight = 2,
     this.showShadow = false,
+    this.onTap,
+    this.onTapUp,
+    this.onTapDown,
+    this.onLongPress,
+    this.onLongPressUp,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -95,6 +100,23 @@ class StoryPageView extends StatefulWidget {
 
   /// Whether to show shadow near indicator
   final bool showShadow;
+
+  /// Function onTap
+  final Function()? onTap;
+
+  /// Function onTapUpDown
+  final Function(TapUpDetails)? onTapUp;
+
+  /// Function onDownUP
+  final Function(TapDownDetails)? onTapDown;
+
+  /// Function onLongPress
+  final Function()? onLongPress;
+
+  /// Function onLongPressFromDown
+  final Function()? onLongPressUp;
+
+  /// Function current story index
 
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
@@ -205,7 +227,7 @@ class _StoryPageBuilder extends StatefulWidget {
     required this.indicatorUnvisitedColor,
     required this.indicatorVisitedColor,
     required this.indicatorHeight,
-    required this.showShadow,
+    required this.showShadow, this.onTap, this.onTapUp, this.onTapDown, this.onLongPress, this.onLongPressUp,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -221,6 +243,11 @@ class _StoryPageBuilder extends StatefulWidget {
   final Color indicatorUnvisitedColor;
   final double indicatorHeight;
   final bool showShadow;
+  final Function()? onTap;
+  final Function(TapUpDetails)? onTapUp;
+  final Function(TapDownDetails)? onTapDown;
+  final Function()? onLongPress;
+  final Function()? onLongPressUp;
 
   static Widget wrapped({
     required int pageIndex,
@@ -427,6 +454,11 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         ),
         _Gestures(
           animationController: animationController,
+          onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
+          onLongPressUp: widget.onLongPressUp,
+          onTapDown: widget.onTapDown,
+          onTapUp: widget.onTapUp,
         ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(
@@ -448,73 +480,86 @@ class _Gestures extends StatelessWidget {
   const _Gestures({
     Key? key,
     required this.animationController,
+    this.onTap,
+    this.onTapUp,
+    this.onTapDown,
+    this.onLongPress,
+    this.onLongPressUp,
   }) : super(key: key);
 
   final AnimationController? animationController;
+  final Function()? onTap;
+  final Function(TapUpDetails)? onTapUp;
+  final Function(TapDownDetails)? onTapDown;
+  final Function()? onLongPress;
+  final Function()? onLongPressUp;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: Container(
-            color: Colors.transparent,
-            child: GestureDetector(
-              onTap: () {
-                animationController!.forward(from: 0);
-                context.read<_StoryStackController>().decrement();
-              },
-              onTapDown: (_) {
-                animationController!.stop();
-              },
-              onTapUp: (_) {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-              onLongPress: () {
-                animationController!.stop();
-              },
-              onLongPressUp: () {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-            ),
+        Container(
+          height: 650,
+          color: Colors.red,
+          child: GestureDetector(
+            onTap: onTap ??
+                () {
+                  animationController!.forward(from: 0);
+                  context.read<_StoryStackController>().decrement();
+                },
+            onTapDown: onTapDown ??
+                (_) {
+                  animationController!.stop();
+                },
+            onTapUp: onTapUp ??
+                (_) {
+                  if (storyImageLoadingController.value !=
+                      StoryImageLoadingState.loading) {
+                    animationController!.forward();
+                  }
+                },
+            onLongPress: onLongPress ??
+                () {
+                  animationController!.stop();
+                },
+            onLongPressUp: onLongPressUp ??
+                () {
+                  if (storyImageLoadingController.value !=
+                      StoryImageLoadingState.loading) {
+                    animationController!.forward();
+                  }
+                },
           ),
         ),
-        Expanded(
-          child: Container(
-            color: Colors.transparent,
-            child: GestureDetector(
-              onTap: () {
-                context.read<_StoryStackController>().increment(
-                      restartAnimation: () =>
-                          animationController!.forward(from: 0),
-                      completeAnimation: () => animationController!.value = 1,
-                    );
-              },
-              onTapDown: (_) {
-                animationController!.stop();
-              },
-              onTapUp: (_) {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-              onLongPress: () {
-                animationController!.stop();
-              },
-              onLongPressUp: () {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-            ),
+        Container(
+          height: 650,
+          color: Colors.red,
+          child: GestureDetector(
+            onTap: () {
+              context.read<_StoryStackController>().increment(
+                    restartAnimation: () =>
+                        animationController!.forward(from: 0),
+                    completeAnimation: () => animationController!.value = 1,
+                  );
+            },
+            onTapDown: (_) {
+              animationController!.stop();
+            },
+            onTapUp: (_) {
+              if (storyImageLoadingController.value !=
+                  StoryImageLoadingState.loading) {
+                animationController!.forward();
+              }
+            },
+            onLongPress: () {
+              animationController!.stop();
+            },
+            onLongPressUp: () {
+              if (storyImageLoadingController.value !=
+                  StoryImageLoadingState.loading) {
+                animationController!.forward();
+              }
+            },
           ),
         ),
       ],
