@@ -52,6 +52,7 @@ class StoryPageView extends StatefulWidget {
     this.onTapDown,
     this.onLongPress,
     this.onLongPressUp,
+    required this.animationControllerCallBack,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -119,6 +120,7 @@ class StoryPageView extends StatefulWidget {
   final Function()? onLongPressUp;
 
   /// Function call back the animation controller
+  final Function(AnimationController) animationControllerCallBack;
 
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
@@ -178,6 +180,8 @@ class _StoryPageViewState extends State<StoryPageView> {
                   storyLength: widget.storyLength(index),
                   initialStoryIndex: widget.initialStoryIndex?.call(index) ?? 0,
                   pageIndex: index,
+                  animationControllerCallBack:
+                      widget.animationControllerCallBack,
                   animateToPage: (index) {
                     pageController!.animateToPage(index,
                         duration: Duration(milliseconds: 300),
@@ -237,6 +241,7 @@ class _StoryPageBuilder extends StatefulWidget {
     this.onLongPressUp,
     this.gestureHeight,
     this.gestureWidth,
+    required this.animationControllerCallBack,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -259,27 +264,28 @@ class _StoryPageBuilder extends StatefulWidget {
   final Function()? onLongPressUp;
   final double? gestureHeight;
   final double? gestureWidth;
+  final Function(AnimationController) animationControllerCallBack;
 
-  static Widget wrapped({
-    required int pageIndex,
-    required int pageLength,
-    required ValueChanged<int> animateToPage,
-    required int storyLength,
-    required int initialStoryIndex,
-    required bool isCurrentPage,
-    required bool isPaging,
-    required VoidCallback? onPageLimitReached,
-    required _StoryItemBuilder itemBuilder,
-    _StoryItemBuilder? gestureItemBuilder,
-    required _StoryDurationFunction? indicatorDuration,
-    required EdgeInsetsGeometry indicatorPadding,
-    required ValueNotifier<IndicatorAnimationCommand>?
-        indicatorAnimationController,
-    required Color indicatorVisitedColor,
-    required Color indicatorUnvisitedColor,
-    required double indicatorHeight,
-    required bool showShadow,
-  }) {
+  static Widget wrapped(
+      {required int pageIndex,
+      required int pageLength,
+      required ValueChanged<int> animateToPage,
+      required int storyLength,
+      required int initialStoryIndex,
+      required bool isCurrentPage,
+      required bool isPaging,
+      required VoidCallback? onPageLimitReached,
+      required _StoryItemBuilder itemBuilder,
+      _StoryItemBuilder? gestureItemBuilder,
+      required _StoryDurationFunction? indicatorDuration,
+      required EdgeInsetsGeometry indicatorPadding,
+      required ValueNotifier<IndicatorAnimationCommand>?
+          indicatorAnimationController,
+      required Color indicatorVisitedColor,
+      required Color indicatorUnvisitedColor,
+      required double indicatorHeight,
+      required bool showShadow,
+      required Function(AnimationController) animationControllerCallBack}) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -308,6 +314,7 @@ class _StoryPageBuilder extends StatefulWidget {
       ],
       child: _StoryPageBuilder._(
         showShadow: showShadow,
+        animationControllerCallBack: animationControllerCallBack,
         storyLength: storyLength,
         initialStoryIndex: initialStoryIndex,
         pageIndex: pageIndex,
@@ -341,6 +348,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
   @override
   void initState() {
     super.initState();
+
     indicatorListener = () {
       print(
           "Mahmoud>>>>>>>>>>>>> ${widget.indicatorAnimationController?.value}");
@@ -399,6 +407,9 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
           }
         },
       );
+
+    widget.animationControllerCallBack.call(animationController);
+
     widget.indicatorAnimationController?.addListener(indicatorListener);
     // storyImageLoadingController.addListener(imageLoadingListener);
   }

@@ -123,9 +123,11 @@ class _StoryPageState extends State<StoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StoryPageView(
+        animationControllerCallBack: (animationController) {},
         itemBuilder: (context, pageIndex, storyIndex, animationController) {
           final user = sampleUsers[pageIndex];
           final story = user.stories[storyIndex];
+
           return Stack(
             children: [
               Positioned.fill(
