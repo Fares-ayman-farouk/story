@@ -723,9 +723,6 @@ class _IndicatorsState extends State<_Indicators> {
     if (!widget.isCurrentPage && widget.isPaging) {
       if (widget.isStopped) {
         widget.animationController!.stop();
-      } else {
-        widget.animationController!
-            .forward(from: widget.animationController!.value);
       }
     }
     // if (!widget.isCurrentPage &&
@@ -736,7 +733,7 @@ class _IndicatorsState extends State<_Indicators> {
     if (widget.isCurrentPage &&
         !widget.animationController!.isAnimating &&
         !isStoryEnded) {
-      widget.animationController!.forward(from: 0);
+      widget.animationController!.forward(from: .5);
     }
 
     return Padding(
