@@ -506,6 +506,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         ),
         _Indicators(
           indicatorHeight: widget.indicatorHeight,
+          isStopped: widget.isStopped,
           storyLength: widget.storyLength,
           animationController: animationController,
           isCurrentPage: widget.isCurrentPage,
@@ -678,6 +679,7 @@ class _Indicators extends StatefulWidget {
     required this.indicatorVisitedColor,
     required this.indicatorHeight,
     required this.indicatorAnimationController,
+    required this.isStopped,
   }) : super(key: key);
   final int storyLength;
   final AnimationController? animationController;
@@ -687,6 +689,7 @@ class _Indicators extends StatefulWidget {
   final Color indicatorVisitedColor;
   final Color indicatorUnvisitedColor;
   final double indicatorHeight;
+  final bool isStopped;
   final ValueNotifier<IndicatorAnimationCommand>? indicatorAnimationController;
 
   @override
@@ -699,6 +702,14 @@ class _IndicatorsState extends State<_Indicators> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.isStopped) {
+        widget.animationController!.stop();
+      } else {
+        widget.animationController!.forward();
+      }
+    });
 
     indicatorAnimation =
         Tween(begin: 0.0, end: 1.0).animate(widget.animationController!)
