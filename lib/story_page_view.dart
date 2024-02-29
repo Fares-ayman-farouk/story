@@ -718,18 +718,26 @@ class _IndicatorsState extends State<_Indicators> {
 
     double lastDuration = widget.animationController!.value;
 
-    print("isPaging ======>${widget.isPaging}");
-    print("isCurrentPage ======>${widget.isCurrentPage}");
-    print("animationController ======>${widget.animationController!.value}");
-    print("isStopped ======>${widget.isStopped}");
     if (!widget.isCurrentPage && widget.isPaging) {
+      print("isPaging ======>${widget.isPaging}");
+      print("isCurrentPage ======>${widget.isCurrentPage}");
       if (widget.isStopped) {
+        print("isStopped ======>${widget.isStopped}");
+
         widget.animationController!.stop();
       } else {
+        print("isStopped ======>${widget.isStopped}");
+
+        print(
+            "animationController ======>${widget.animationController!.value}");
+
         if (widget.animationController!.value == 0) {
+          print("animate from value 0");
           widget.animationController!.forward(from: 0);
         } else {
-          widget.animationController!.forward(from: lastDuration);
+          print("animate from value $lastDuration");
+
+          widget.animationController!.forward();
         }
       }
     }
