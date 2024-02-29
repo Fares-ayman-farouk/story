@@ -732,10 +732,15 @@ class _IndicatorsState extends State<_Indicators> {
         !widget.animationController!.isAnimating &&
         !isStoryEnded &&
         storyImageLoadingController.value != StoryImageLoadingState.loading) {
+      widget.animationController!.forward(from: 0);
+    }
+
+    if (widget.isCurrentPage && widget.isPaging) {
       if (widget.isStopped) {
         widget.animationController!.stop();
       } else {
-        widget.animationController!.forward(from: 0);
+        widget.animationController!
+            .forward(from: widget.animationController!.value);
       }
     }
 
