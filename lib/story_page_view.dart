@@ -715,6 +715,11 @@ class _IndicatorsState extends State<_Indicators> {
   Widget build(BuildContext context) {
     final int currentStoryIndex = context.watch<_StoryStackController>().value;
     final bool isStoryEnded = context.watch<_StoryLimitController>().value;
+
+    print("isPaging ======>${widget.isPaging}");
+    print("isCurrentPage ======>${widget.isCurrentPage}");
+    print("animationController ======>${widget.animationController!.value}");
+    print("animationController ======>${widget.animationController!.value}");
     if (!widget.isCurrentPage && widget.isPaging) {
       widget.animationController!.stop();
     }
