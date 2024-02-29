@@ -724,19 +724,20 @@ class _IndicatorsState extends State<_Indicators> {
       if (widget.isStopped) {
         widget.animationController!.stop();
       } else {
-        widget.animationController!.forward(from: 0.5);
+        widget.animationController!
+            .forward(from: widget.animationController!.value);
       }
     }
-    if (!widget.isCurrentPage &&
-        !widget.isPaging &&
-        widget.animationController!.value != 0) {
-      widget.animationController!.value = 0;
-    }
-    if (widget.isCurrentPage &&
-        !widget.animationController!.isAnimating &&
-        !isStoryEnded) {
-      widget.animationController!.forward(from: 0);
-    }
+    // if (!widget.isCurrentPage &&
+    //     !widget.isPaging &&
+    //     widget.animationController!.value != 0) {
+    //   widget.animationController!.value = 0;
+    // }
+    // if (widget.isCurrentPage &&
+    //     !widget.animationController!.isAnimating &&
+    //     !isStoryEnded) {
+    //   widget.animationController!.forward(from: 0);
+    // }
 
     return Padding(
       padding: widget.padding,
