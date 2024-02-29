@@ -56,6 +56,7 @@ class StoryPageView extends StatefulWidget {
     this.onVerticalDragEnd,
     required this.gestureHeight,
     required this.gestureWidth,
+    required this.isStopped,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -132,6 +133,9 @@ class StoryPageView extends StatefulWidget {
   final double gestureHeight;
   final double gestureWidth;
 
+  /// bool isStopped
+  final bool isStopped;
+
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
   final ValueNotifier<IndicatorAnimationCommand>? indicatorAnimationController;
@@ -140,7 +144,8 @@ class StoryPageView extends StatefulWidget {
   _StoryPageViewState createState() => _StoryPageViewState();
 }
 
-class _StoryPageViewState extends State<StoryPageView> {
+class _StoryPageViewState extends State<StoryPageView>
+    with AutomaticKeepAliveClientMixin {
   PageController? pageController;
 
   var currentPageValue;
@@ -202,7 +207,7 @@ class _StoryPageViewState extends State<StoryPageView> {
                     animateToPage: (index) {
                       pageController!.animateToPage(index,
                           duration: Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                          curve: Curves.linear);
                     },
                     isCurrentPage: currentPageValue == index,
                     isPaging: isPaging,
@@ -216,7 +221,8 @@ class _StoryPageViewState extends State<StoryPageView> {
                     indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
                     indicatorVisitedColor: widget.indicatorVisitedColor,
                     gestureHeight: widget.gestureHeight,
-                    gestureWidth: widget.gestureWidth),
+                    gestureWidth: widget.gestureWidth,
+                    isStopped: widget.isStopped),
                 if (isPaging && !isLeaving)
                   Positioned.fill(
                     child: Opacity(
@@ -233,6 +239,9 @@ class _StoryPageViewState extends State<StoryPageView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _StoryPageBuilder extends StatefulWidget {
@@ -261,6 +270,7 @@ class _StoryPageBuilder extends StatefulWidget {
     required this.gestureWidth,
     required this.animationControllerCallBack,
     this.onVerticalDragEnd,
+    required this.isStopped,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -285,6 +295,8 @@ class _StoryPageBuilder extends StatefulWidget {
   final double gestureHeight;
   final double gestureWidth;
   final Function(AnimationController) animationControllerCallBack;
+
+  final bool isStopped;
 
   static Widget wrapped(
       {required int pageIndex,
@@ -313,6 +325,7 @@ class _StoryPageBuilder extends StatefulWidget {
       Function(DragEndDetails)? onVerticalDragEnd,
       Function(TapUpDetails)? onTapUp,
       Function(TapDownDetails)? onTapDown,
+      required bool isStopped,
       required Function(AnimationController) animationControllerCallBack}) {
     return MultiProvider(
       providers: [
@@ -364,6 +377,7 @@ class _StoryPageBuilder extends StatefulWidget {
         indicatorHeight: indicatorHeight,
         gestureHeight: gestureHeight,
         gestureWidth: gestureWidth,
+        isStopped: isStopped,
       ),
     );
   }
@@ -386,8 +400,6 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
     super.initState();
 
     indicatorListener = () {
-      print(
-          "Mahmoud>>>>>>>>>>>>> ${widget.indicatorAnimationController?.value}");
       if (widget.isCurrentPage) {
         // switch (widget.indicatorAnimationController?.value) {
         //   case IndicatorAnimationCommand.pause:
@@ -403,8 +415,8 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         //     // animationController.stop();
         //     break;
         // }
-        if (widget.indicatorAnimationController?.value ==
-            IndicatorAnimationCommand.pause) {
+        print("is stopped ===> ${widget.isStopped}");
+        if (widget.isStopped) {
           animationController.stop();
         } else {
           animationController.forward();
@@ -446,7 +458,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
 
     widget.animationControllerCallBack.call(animationController);
 
-    // widget.indicatorAnimationController?.addListener(indicatorListener);
+    widget.indicatorAnimationController?.addListener(indicatorListener);
     // storyImageLoadingController.addListener(imageLoadingListener);
   }
 

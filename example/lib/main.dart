@@ -125,6 +125,7 @@ class _StoryPageState extends State<StoryPage> {
       body: StoryPageView(
         animationControllerCallBack: (animationController) {},
         gestureHeight: 650,
+        isStopped: false,
         gestureWidth: 650,
         itemBuilder: (context, pageIndex, storyIndex, animationController) {
           final user = sampleUsers[pageIndex];
