@@ -399,12 +399,14 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
   void initState() {
     super.initState();
 
+    print("is stopped1 ===> ${widget.isStopped}");
+
     indicatorListener = () {
       print("is stopped ===> ${widget.isStopped}");
       if (widget.isStopped) {
         animationController.stop();
       } else {
-        animationController.forward();
+        return;
       }
     };
     imageLoadingListener = () {
