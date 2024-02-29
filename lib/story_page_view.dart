@@ -719,7 +719,7 @@ class _IndicatorsState extends State<_Indicators> {
     print("isPaging ======>${widget.isPaging}");
     print("isCurrentPage ======>${widget.isCurrentPage}");
     print("animationController ======>${widget.animationController!.value}");
-    print("animationController ======>${widget.animationController!.value}");
+    print("isStopped ======>${widget.isStopped}");
     if (!widget.isCurrentPage && widget.isPaging) {
       if (widget.isStopped) {
         widget.animationController!.stop();
