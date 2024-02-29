@@ -716,6 +716,8 @@ class _IndicatorsState extends State<_Indicators> {
     final int currentStoryIndex = context.watch<_StoryStackController>().value;
     final bool isStoryEnded = context.watch<_StoryLimitController>().value;
 
+    double lastDuration = widget.animationController!.value;
+
     print("isPaging ======>${widget.isPaging}");
     print("isCurrentPage ======>${widget.isCurrentPage}");
     print("animationController ======>${widget.animationController!.value}");
@@ -723,6 +725,12 @@ class _IndicatorsState extends State<_Indicators> {
     if (!widget.isCurrentPage && widget.isPaging) {
       if (widget.isStopped) {
         widget.animationController!.stop();
+      } else {
+        if (widget.animationController!.value == 0) {
+          widget.animationController!.forward(from: 0);
+        } else {
+          widget.animationController!.forward(from: lastDuration);
+        }
       }
     }
     // if (!widget.isCurrentPage &&
@@ -730,11 +738,11 @@ class _IndicatorsState extends State<_Indicators> {
     //     widget.animationController!.value != 0) {
     //   widget.animationController!.value = 0;
     // }
-    if (widget.isCurrentPage &&
-        !widget.animationController!.isAnimating &&
-        !isStoryEnded) {
-      widget.animationController!.forward(from: .5);
-    }
+    // if (widget.isCurrentPage &&
+    //     !widget.animationController!.isAnimating &&
+    //     !isStoryEnded) {
+    //   widget.animationController!.forward(from: .5);
+    // }
 
     return Padding(
       padding: widget.padding,
