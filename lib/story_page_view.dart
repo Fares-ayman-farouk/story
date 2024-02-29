@@ -729,12 +729,14 @@ class _IndicatorsState extends State<_Indicators> {
     //     storyImageLoadingController.value != StoryImageLoadingState.loading) {
     //   widget.animationController!.forward(from: 0);
     // }
-    if (widget.isStopped) {
-      print("indicator isStopped1 isChanged ==>${widget.isStopped}");
-      widget.animationController!.stop();
-    } else {
-      widget.animationController!.forward(from: currentStoryIndex.toDouble());
-    }
+    widget.animationController!.addListener(() {
+      if (widget.isStopped) {
+        print("indicator isStopped1 isChanged ==>${widget.isStopped}");
+        widget.animationController!.stop();
+      } else {
+        widget.animationController!.forward(from: currentStoryIndex.toDouble());
+      }
+    });
     return Padding(
       padding: widget.padding,
       child: Row(
