@@ -718,7 +718,7 @@ class _IndicatorsState extends State<_Indicators> {
 
     double lastDuration = widget.animationController!.value;
 
-    if (!widget.isCurrentPage && widget.isPaging) {
+    if (widget.isCurrentPage && widget.isPaging) {
       print("isPaging ======>${widget.isPaging}");
       print("isCurrentPage ======>${widget.isCurrentPage}");
       if (widget.isStopped) {
