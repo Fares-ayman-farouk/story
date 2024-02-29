@@ -733,11 +733,11 @@ class _IndicatorsState extends State<_Indicators> {
     //     widget.animationController!.value != 0) {
     //   widget.animationController!.value = 0;
     // }
-    // if (widget.isCurrentPage &&
-    //     !widget.animationController!.isAnimating &&
-    //     !isStoryEnded) {
-    //   widget.animationController!.forward(from: 0);
-    // }
+    if (widget.isCurrentPage &&
+        !widget.animationController!.isAnimating &&
+        !isStoryEnded) {
+      widget.animationController!.forward(from: 0);
+    }
 
     return Padding(
       padding: widget.padding,
