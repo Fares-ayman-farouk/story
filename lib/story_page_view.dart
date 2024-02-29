@@ -704,6 +704,7 @@ class _IndicatorsState extends State<_Indicators> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      print("indicator isStopped isChanged ==>${widget.isStopped}");
       if (widget.isStopped) {
         widget.animationController!.stop();
       } else {
