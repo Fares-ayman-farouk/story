@@ -442,9 +442,16 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         },
       );
 
-    widget.animationControllerCallBack.call(animationController);
+    // widget.animationControllerCallBack.call(animationController);
 
-    widget.indicatorAnimationController?.addListener(indicatorListener);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      print("test isStopped Chnage ==> ${widget.isStopped}");
+      if (widget.isStopped) {
+        animationController.stop();
+      } else {
+        return;
+      }
+    });
     // storyImageLoadingController.addListener(imageLoadingListener);
   }
 
