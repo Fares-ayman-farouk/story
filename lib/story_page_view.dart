@@ -715,23 +715,25 @@ class _IndicatorsState extends State<_Indicators> {
   Widget build(BuildContext context) {
     final int currentStoryIndex = context.watch<_StoryStackController>().value;
     final bool isStoryEnded = context.watch<_StoryLimitController>().value;
-    if (!widget.isCurrentPage && widget.isPaging) {
-      widget.animationController!.stop();
-    }
-    if (!widget.isCurrentPage &&
-        !widget.isPaging &&
-        widget.animationController!.value != 0) {
-      widget.animationController!.value = 0;
-    }
-    if (widget.isCurrentPage &&
-        !widget.animationController!.isAnimating &&
-        !isStoryEnded &&
-        storyImageLoadingController.value != StoryImageLoadingState.loading) {
-      widget.animationController!.forward(from: 0);
-    }
+    // if (!widget.isCurrentPage && widget.isPaging) {
+    //   widget.animationController!.stop();
+    // }
+    // if (!widget.isCurrentPage &&
+    //     !widget.isPaging &&
+    //     widget.animationController!.value != 0) {
+    //   widget.animationController!.value = 0;
+    // }
+    // if (widget.isCurrentPage &&
+    //     !widget.animationController!.isAnimating &&
+    //     !isStoryEnded &&
+    //     storyImageLoadingController.value != StoryImageLoadingState.loading) {
+    //   widget.animationController!.forward(from: 0);
+    // }
     if (widget.isStopped) {
       print("indicator isStopped1 isChanged ==>${widget.isStopped}");
       widget.animationController!.stop();
+    } else {
+      widget.animationController!.forward(from: currentStoryIndex.toDouble());
     }
     return Padding(
       padding: widget.padding,
