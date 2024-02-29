@@ -731,12 +731,7 @@ class _IndicatorsState extends State<_Indicators> {
     }
     if (widget.isStopped) {
       print("indicator isStopped1 isChanged ==>${widget.isStopped}");
-
       widget.animationController!.stop();
-    } else {
-      print("indicator isStopped2 isChanged ==>${widget.isStopped}");
-
-      widget.animationController!.forward();
     }
     return Padding(
       padding: widget.padding,
