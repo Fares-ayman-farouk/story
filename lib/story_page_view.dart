@@ -400,27 +400,11 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
     super.initState();
 
     indicatorListener = () {
-      if (widget.isCurrentPage) {
-        // switch (widget.indicatorAnimationController?.value) {
-        //   case IndicatorAnimationCommand.pause:
-        //     animationController.stop();
-        //     break;
-        //   case IndicatorAnimationCommand.resume:
-        //   default:
-        //     if (storyImageLoadingController.value ==
-        //         StoryImageLoadingState.loading) {
-        //       return;
-        //     }
-        //     animationController.forward();
-        //     // animationController.stop();
-        //     break;
-        // }
-        print("is stopped ===> ${widget.isStopped}");
-        if (widget.isStopped) {
-          animationController.stop();
-        } else {
-          animationController.forward();
-        }
+      print("is stopped ===> ${widget.isStopped}");
+      if (widget.isStopped) {
+        animationController.stop();
+      } else {
+        animationController.forward();
       }
     };
     imageLoadingListener = () {
