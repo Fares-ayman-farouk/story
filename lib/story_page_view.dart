@@ -241,7 +241,7 @@ class _StoryPageViewState extends State<StoryPageView>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
 
 class _StoryPageBuilder extends StatefulWidget {
