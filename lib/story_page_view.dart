@@ -241,7 +241,7 @@ class _StoryPageViewState extends State<StoryPageView>
   }
 
   @override
-  bool get wantKeepAlive => false;
+  bool get wantKeepAlive => true;
 }
 
 class _StoryPageBuilder extends StatefulWidget {
@@ -716,36 +716,22 @@ class _IndicatorsState extends State<_Indicators> {
     final int currentStoryIndex = context.watch<_StoryStackController>().value;
     final bool isStoryEnded = context.watch<_StoryLimitController>().value;
 
-    double lastDuration = widget.animationController!.value;
-
     if (widget.isCurrentPage && widget.isPaging) {
-      print("isPaging ======>${widget.isPaging}");
-      print("isCurrentPage ======>${widget.isCurrentPage}");
       if (widget.isStopped) {
-        print("isStopped ======>${widget.isStopped}");
-
         widget.animationController!.stop();
       } else {
-        print("isStopped ======>${widget.isStopped}");
-
-        print(
-            "animationController ======>${widget.animationController!.value}");
-
         if (widget.animationController!.value == 0) {
-          print("animate from value 0");
           widget.animationController!.forward(from: 0);
         } else {
-          print("animate from value $lastDuration");
-
-          widget.animationController!.forward();
+          if (isStoryEnded) {
+            widget.animationController!.forward(from: 0);
+          } else {
+            widget.animationController!.forward();
+          }
         }
       }
     }
-    // if (!widget.isCurrentPage &&
-    //     !widget.isPaging &&
-    //     widget.animationController!.value != 0) {
-    //   widget.animationController!.value = 0;
-    // }
+
     // if (widget.isCurrentPage &&
     //     !widget.animationController!.isAnimating &&
     //     !isStoryEnded) {
