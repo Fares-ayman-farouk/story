@@ -519,7 +519,7 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
+            padding: EdgeInsets.only(bottom: 88),
             child: _Gestures(
               animationController: animationController,
               onTap: widget.onTap,
