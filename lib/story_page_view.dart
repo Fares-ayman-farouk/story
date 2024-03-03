@@ -166,77 +166,68 @@ class _StoryPageViewState extends State<StoryPageView>
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: widget.backgroundColor,
-      child: PageView.builder(
-        controller: pageController,
-        itemCount: widget.pageLength,
-        onPageChanged: widget.onPageChanged,
-        itemBuilder: (context, index) {
-          final isLeaving = (index - currentPageValue) <= 0;
-          final t = (index - currentPageValue);
-          final rotationY = lerpDouble(0, 30, t as double)!;
-          final maxOpacity = 0.8;
-          final num opacity =
-              lerpDouble(0, maxOpacity, t.abs())!.clamp(0.0, maxOpacity);
-          final isPaging = opacity != maxOpacity;
-          final transform = Matrix4.identity();
-          transform.setEntry(3, 2, 0.003);
-          transform.rotateY(-rotationY * (pi / 180.0));
-          return Transform(
-            alignment: isLeaving ? Alignment.centerRight : Alignment.centerLeft,
-            transform: transform,
-            child: Stack(
-              children: [
-                _StoryPageBuilder.wrapped(
-                    showShadow: widget.showShadow,
-                    indicatorHeight: widget.indicatorHeight,
-                    pageLength: widget.pageLength,
-                    storyLength: widget.storyLength(index),
-                    initialStoryIndex:
-                        widget.initialStoryIndex?.call(index) ?? 0,
-                    pageIndex: index,
-                    onTap: widget.onTap,
-                    onLongPress: widget.onLongPress,
-                    onLongPressUp: widget.onLongPressUp,
-                    onTapDown: widget.onTapDown,
-                    onTapUp: widget.onTapUp,
-                    onVerticalDragEnd: widget.onVerticalDragEnd,
-                    animationControllerCallBack:
-                        widget.animationControllerCallBack,
-                    animateToPage: (index) {
-                      pageController!.animateToPage(index,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.linear);
-                    },
-                    isCurrentPage: currentPageValue == index,
-                    isPaging: isPaging,
-                    onPageLimitReached: widget.onPageLimitReached,
-                    itemBuilder: widget.itemBuilder,
-                    gestureItemBuilder: widget.gestureItemBuilder,
-                    indicatorDuration: widget.indicatorDuration,
-                    indicatorPadding: widget.indicatorPadding,
-                    indicatorAnimationController:
-                        widget.indicatorAnimationController,
-                    indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
-                    indicatorVisitedColor: widget.indicatorVisitedColor,
-                    gestureHeight: widget.gestureHeight,
-                    gestureWidth: widget.gestureWidth,
-                    isStopped: widget.isStopped),
-                if (isPaging && !isLeaving)
-                  Positioned.fill(
-                    child: Opacity(
-                      opacity: opacity as double,
-                      child: ColoredBox(
-                        color: Colors.black87,
-                      ),
-                    ),
+    return PageView.builder(
+      controller: pageController,
+      itemCount: widget.pageLength,
+      onPageChanged: widget.onPageChanged,
+      itemBuilder: (context, index) {
+        final isLeaving = (index - currentPageValue) <= 0;
+        final t = (index - currentPageValue);
+        final rotationY = lerpDouble(0, 30, t as double)!;
+        final maxOpacity = 0.8;
+        final num opacity =
+            lerpDouble(0, maxOpacity, t.abs())!.clamp(0.0, maxOpacity);
+        final isPaging = opacity != maxOpacity;
+        final transform = Matrix4.identity();
+        transform.setEntry(3, 2, 0.003);
+        transform.rotateY(-rotationY * (pi / 180.0));
+        return Stack(
+          children: [
+            _StoryPageBuilder.wrapped(
+                showShadow: widget.showShadow,
+                indicatorHeight: widget.indicatorHeight,
+                pageLength: widget.pageLength,
+                storyLength: widget.storyLength(index),
+                initialStoryIndex: widget.initialStoryIndex?.call(index) ?? 0,
+                pageIndex: index,
+                onTap: widget.onTap,
+                onLongPress: widget.onLongPress,
+                onLongPressUp: widget.onLongPressUp,
+                onTapDown: widget.onTapDown,
+                onTapUp: widget.onTapUp,
+                onVerticalDragEnd: widget.onVerticalDragEnd,
+                animationControllerCallBack: widget.animationControllerCallBack,
+                animateToPage: (index) {
+                  pageController!.animateToPage(index,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.linear);
+                },
+                isCurrentPage: currentPageValue == index,
+                isPaging: isPaging,
+                onPageLimitReached: widget.onPageLimitReached,
+                itemBuilder: widget.itemBuilder,
+                gestureItemBuilder: widget.gestureItemBuilder,
+                indicatorDuration: widget.indicatorDuration,
+                indicatorPadding: widget.indicatorPadding,
+                indicatorAnimationController:
+                    widget.indicatorAnimationController,
+                indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
+                indicatorVisitedColor: widget.indicatorVisitedColor,
+                gestureHeight: widget.gestureHeight,
+                gestureWidth: widget.gestureWidth,
+                isStopped: widget.isStopped),
+            if (isPaging && !isLeaving)
+              Positioned.fill(
+                child: Opacity(
+                  opacity: opacity as double,
+                  child: ColoredBox(
+                    color: Colors.black87,
                   ),
-              ],
-            ),
-          );
-        },
-      ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
