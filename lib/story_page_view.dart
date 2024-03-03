@@ -584,9 +584,9 @@ class _Gestures extends StatelessWidget {
           color: Colors.transparent,
           child: GestureDetector(
             onTap: () {
+              if (onTap != null) onTap!.call();
               animationController!.forward(from: 0);
               context.read<_StoryStackController>().decrement();
-              if (onTap != null) onTap!.call();
             },
             onTapDown: onTapDown ??
                 (_) {
@@ -626,12 +626,12 @@ class _Gestures extends StatelessWidget {
           color: Colors.transparent,
           child: GestureDetector(
             onTap: () {
+              if (onTap != null) onTap!.call();
               context.read<_StoryStackController>().increment(
                     restartAnimation: () =>
                         animationController!.forward(from: 0),
                     completeAnimation: () => animationController!.value = 1,
                   );
-              if (onTap != null) onTap!.call();
             },
             onTapDown: onTapDown ??
                 (_) {
