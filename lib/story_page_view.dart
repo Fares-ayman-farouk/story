@@ -518,16 +518,19 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: _Gestures(
-            animationController: animationController,
-            onTap: widget.onTap,
-            onLongPress: widget.onLongPress,
-            onLongPressUp: widget.onLongPressUp,
-            onTapDown: widget.onTapDown,
-            onTapUp: widget.onTapUp,
-            onVerticalDragEnd: widget.onVerticalDragEnd,
-            gestureHeight: widget.gestureHeight,
-            gestureWidth: widget.gestureWidth,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: _Gestures(
+              animationController: animationController,
+              onTap: widget.onTap,
+              onLongPress: widget.onLongPress,
+              onLongPressUp: widget.onLongPressUp,
+              onTapDown: widget.onTapDown,
+              onTapUp: widget.onTapUp,
+              onVerticalDragEnd: widget.onVerticalDragEnd,
+              gestureHeight: widget.gestureHeight,
+              gestureWidth: widget.gestureWidth,
+            ),
           ),
         ),
         Positioned.fill(
