@@ -730,6 +730,8 @@ class _IndicatorsState extends State<_Indicators> {
           }
         }
       }
+    } else {
+      widget.animationController!.forward(from: 0);
     }
 
     // if (widget.isCurrentPage &&
