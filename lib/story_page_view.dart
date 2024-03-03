@@ -580,11 +580,11 @@ class _Gestures extends StatelessWidget {
           width: gestureWidth ?? 180,
           color: Colors.transparent,
           child: GestureDetector(
-            onTap: onTap ??
-                () {
-                  animationController!.forward(from: 0);
-                  context.read<_StoryStackController>().decrement();
-                },
+            onTap: () {
+              animationController!.forward(from: 0);
+              context.read<_StoryStackController>().decrement();
+              if (onTap != null) onTap!.call();
+            },
             onTapDown: onTapDown ??
                 (_) {
                   animationController!.stop();
@@ -622,14 +622,14 @@ class _Gestures extends StatelessWidget {
           width: gestureWidth ?? 180,
           color: Colors.transparent,
           child: GestureDetector(
-            onTap: onTap ??
-                () {
-                  context.read<_StoryStackController>().increment(
-                        restartAnimation: () =>
-                            animationController!.forward(from: 0),
-                        completeAnimation: () => animationController!.value = 1,
-                      );
-                },
+            onTap: () {
+              context.read<_StoryStackController>().increment(
+                    restartAnimation: () =>
+                        animationController!.forward(from: 0),
+                    completeAnimation: () => animationController!.value = 1,
+                  );
+              if (onTap != null) onTap!.call();
+            },
             onTapDown: onTapDown ??
                 (_) {
                   animationController!.stop();
